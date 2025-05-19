@@ -6,8 +6,8 @@ import StarRating from './StarRating';
 
 interface FeaturedTestimonialProps {
   name: string;
-  role: string;
-  company: string;
+  role?: string;
+  company?: string;
   testimonial: string;
   rating: number;
   className?: string;
@@ -23,6 +23,8 @@ const FeaturedTestimonial = ({
   className,
   imageUrl
 }: FeaturedTestimonialProps) => {
+  const displayRole = role && company ? `${role}, ${company}` : role || '';
+  
   return (
     <Card className={cn(
       "relative overflow-hidden border border-primary/20",
@@ -50,7 +52,7 @@ const FeaturedTestimonial = ({
             </p>
             <div>
               <p className="font-bold text-base">{name}</p>
-              <p className="text-sm text-muted-foreground">{role}, {company}</p>
+              {displayRole && <p className="text-sm text-muted-foreground">{displayRole}</p>}
             </div>
           </div>
         </div>

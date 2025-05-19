@@ -6,72 +6,84 @@ import FeaturedTestimonial from '@/components/FeaturedTestimonial';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const testimonials = [
+interface ReviewData {
+  name: string;
+  service: string;
+  rating: number;
+  review: string;
+}
+
+const reviewsData: ReviewData[] = [
   {
-    name: "Emma Thompson",
-    role: "Marketing Director",
-    company: "Innovate Inc.",
-    testimonial: "This product completely transformed our workflow. The team's efficiency increased by 40% and we've seen remarkable growth in just three months!",
+    name: "Nina Sharma",
+    service: "Business Website",
     rating: 5,
+    review:
+      "Flawless execution and on-time delivery. Highly recommend for any startup looking to go digital!",
   },
   {
-    name: "Michael Chen",
-    role: "CTO",
-    company: "TechFlow",
-    testimonial: "I was skeptical at first, but after implementing this solution, our development cycles are shorter and our team is happier. Couldn't ask for more.",
-    rating: 4.5,
-  },
-  {
-    name: "Sarah Johnson",
-    role: "Product Manager",
-    company: "DesignHub",
-    testimonial: "The customer support is exceptional. Any time we had questions, the team was quick to respond and provide helpful solutions.",
+    name: "Robert Ng",
+    service: "SEO Optimization",
     rating: 5,
+    review:
+      "They really helped my site show up on Google. Traffic's steadily growing since we launched!",
   },
   {
-    name: "David Rodriguez",
-    role: "CEO",
-    company: "StartupVision",
-    testimonial: "We've tried many similar products, but this one stands out for its intuitive interface and powerful features. It's been a game-changer for our startup.",
-    rating: 4.5,
-  },
-  {
-    name: "Aisha Patel",
-    role: "Operations Lead",
-    company: "GlobalTech",
-    testimonial: "The scalability of this solution has allowed us to grow without worrying about our infrastructure. Remarkable product and team!",
-    rating: 5,
-  },
-  {
-    name: "James Wilson",
-    role: "Finance Director",
-    company: "Capital Insights",
-    testimonial: "The ROI we've seen from implementing this solution has exceeded our expectations. Our board is thrilled with the results.",
+    name: "Emily Hargrove",
+    service: "Website Maintenance",
     rating: 4,
+    review:
+      "There were a few hiccups in the beginning but they responded fast and fixed everything right away.",
   },
   {
-    name: "Lisa Wang",
-    role: "UX Designer",
-    company: "CreativeMinds",
-    testimonial: "As a designer, I appreciate the attention to detail and user experience. It's rare to find a product that balances functionality and design so well.",
+    name: "Dev Patel",
+    service: "Custom Web App",
     rating: 5,
+    review:
+      "Built a custom solution for my event business and it's saving me tons of time.",
   },
   {
-    name: "Robert Kim",
-    role: "Sales Director",
-    company: "GrowthMakers",
-    testimonial: "Our sales team has been able to close deals faster thanks to the streamlined processes. The analytics are invaluable for our strategy.",
-    rating: 4.5,
-  }
+    name: "Sophie Turner",
+    service: "E-commerce Development",
+    rating: 5,
+    review:
+      "Absolutely thrilled with my new online store! Everything functions perfectly, and the design is just stunning. My customers have already complimented it.",
+  },
+  {
+    name: "Jason Roy",
+    service: "Website Redesign",
+    rating: 4,
+    review:
+      "The redesign made a big difference. There was a delay in delivery but it was communicated properly and handled professionally.",
+  },
+  {
+    name: "Chloe White",
+    service: "E-commerce Development",
+    rating: 5,
+    review: "Managing products and orders is so easy now. Thanks!",
+  },
 ];
 
-const featuredTestimonial = {
-  name: "Alexandra Rivera",
-  role: "Chief Innovation Officer",
-  company: "Future Forward",
-  testimonial: "I can't emphasize enough how transformative this product has been for our organization. We've seen a dramatic increase in productivity, collaboration has improved significantly, and our team members regularly express how much they enjoy using it. The intuitive design combined with powerful features makes it accessible to everyone while still satisfying our power users' needs. The investment has paid for itself many times over.",
-  rating: 5,
+// Generate a consistent avatar URL using DiceBear
+const getAvatarUrl = (name: string): string => {
+  // DiceBear styles to use for avatar generation
+  const styles = ["initials"];
+
+  // Create a simple hash of the name to pick a consistent style
+  const nameHash = name
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const styleIndex = nameHash % styles.length;
+
+  // Use the name as seed for consistent avatar generation
+  const style = styles[styleIndex];
+  const seed = encodeURIComponent(name);
+
+  return `https://api.dicebear.com/7.x/${style}/svg?seed=${seed}`;
 };
+
+// Use the first review with 5-star rating as the featured testimonial
+const featuredReview = reviewsData.find(review => review.rating === 5) || reviewsData[0];
 
 const Section = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <section className={cn("py-16 px-4 md:px-6 container", className)}>
@@ -84,11 +96,11 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <Section className="pt-24 pb-16 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
           Our Customers Love Us
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-          See why thousands of businesses trust our products to power their critical operations
+          See why our clients trust us with their digital presence
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
@@ -103,14 +115,14 @@ const Index = () => {
       {/* Testimonial Marquee */}
       <div className="py-8 bg-gradient-to-r from-secondary/50 via-background to-secondary/50">
         <Marquee speed="slow">
-          {testimonials.map((testimonial, index) => (
+          {reviewsData.map((review, index) => (
             <TestimonialCard
               key={index}
-              name={testimonial.name}
-              role={testimonial.role}
-              company={testimonial.company}
-              testimonial={testimonial.testimonial}
-              rating={testimonial.rating}
+              name={review.name}
+              service={review.service}
+              testimonial={review.review}
+              rating={review.rating}
+              imageUrl={getAvatarUrl(review.name)}
             />
           ))}
         </Marquee>
@@ -118,14 +130,14 @@ const Index = () => {
 
       {/* Featured Testimonial */}
       <Section className="py-24">
-        <h2 className="text-3xl font-bold text-center mb-12">Featured Testimonial</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">Featured Review</h2>
         <div className="max-w-4xl mx-auto">
           <FeaturedTestimonial
-            name={featuredTestimonial.name}
-            role={featuredTestimonial.role}
-            company={featuredTestimonial.company}
-            testimonial={featuredTestimonial.testimonial}
-            rating={featuredTestimonial.rating}
+            name={featuredReview.name}
+            role={featuredReview.service}
+            testimonial={featuredReview.review}
+            rating={featuredReview.rating}
+            imageUrl={getAvatarUrl(featuredReview.name)}
           />
         </div>
       </Section>
@@ -133,17 +145,17 @@ const Index = () => {
       {/* Stats Section */}
       <Section className="bg-primary/5 py-20">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-3">Trusted by Thousands</h2>
-          <p className="text-muted-foreground">The numbers speak for themselves</p>
+          <h2 className="text-3xl font-bold mb-3">Trusted by Many</h2>
+          <p className="text-muted-foreground">The results speak for themselves</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="text-center p-6 bg-background rounded-lg shadow-md border border-border">
             <p className="text-4xl font-bold text-primary mb-2">98%</p>
-            <p className="text-sm text-muted-foreground">Customer Satisfaction</p>
+            <p className="text-sm text-muted-foreground">Client Satisfaction</p>
           </div>
           <div className="text-center p-6 bg-background rounded-lg shadow-md border border-border">
-            <p className="text-4xl font-bold text-primary mb-2">12,000+</p>
-            <p className="text-sm text-muted-foreground">Active Users</p>
+            <p className="text-4xl font-bold text-primary mb-2">150+</p>
+            <p className="text-sm text-muted-foreground">Projects Completed</p>
           </div>
           <div className="text-center p-6 bg-background rounded-lg shadow-md border border-border">
             <p className="text-4xl font-bold text-primary mb-2">4.9/5</p>
@@ -154,18 +166,18 @@ const Index = () => {
 
       {/* Call to Action */}
       <Section className="text-center">
-        <h2 className="text-3xl font-bold mb-6">Ready to join our satisfied customers?</h2>
+        <h2 className="text-3xl font-bold mb-6">Ready to join our satisfied clients?</h2>
         <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-          Get started today and see why thousands of businesses choose our platform
+          Contact us today to discuss how we can help with your web development needs
         </p>
         <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-          Start Your Free Trial
+          Start Your Project
         </Button>
       </Section>
 
       {/* Footer */}
       <footer className="bg-secondary/30 py-8 px-4 text-center text-muted-foreground text-sm">
-        <p>© 2025 Company Name. All rights reserved.</p>
+        <p>© 2025 Web Development Agency. All rights reserved.</p>
       </footer>
     </div>
   );
