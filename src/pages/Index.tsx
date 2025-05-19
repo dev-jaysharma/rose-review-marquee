@@ -1,86 +1,14 @@
 
 import React from 'react';
-import Marquee from '@/components/Marquee';
-import TestimonialCard from '@/components/TestimonialCard';
-import FeaturedTestimonial from '@/components/FeaturedTestimonial';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
-interface ReviewData {
-  name: string;
-  service: string;
-  rating: number;
-  review: string;
-}
-
-const reviewsData: ReviewData[] = [
-  {
-    name: "Nina Sharma",
-    service: "Business Website",
-    rating: 5,
-    review:
-      "Flawless execution and on-time delivery. Highly recommend for any startup looking to go digital!",
-  },
-  {
-    name: "Robert Ng",
-    service: "SEO Optimization",
-    rating: 5,
-    review:
-      "They really helped my site show up on Google. Traffic's steadily growing since we launched!",
-  },
-  {
-    name: "Emily Hargrove",
-    service: "Website Maintenance",
-    rating: 4,
-    review:
-      "There were a few hiccups in the beginning but they responded fast and fixed everything right away.",
-  },
-  {
-    name: "Dev Patel",
-    service: "Custom Web App",
-    rating: 5,
-    review:
-      "Built a custom solution for my event business and it's saving me tons of time.",
-  },
-  {
-    name: "Sophie Turner",
-    service: "E-commerce Development",
-    rating: 5,
-    review:
-      "Absolutely thrilled with my new online store! Everything functions perfectly, and the design is just stunning. My customers have already complimented it.",
-  },
-  {
-    name: "Jason Roy",
-    service: "Website Redesign",
-    rating: 4,
-    review:
-      "The redesign made a big difference. There was a delay in delivery but it was communicated properly and handled professionally.",
-  },
-  {
-    name: "Chloe White",
-    service: "E-commerce Development",
-    rating: 5,
-    review: "Managing products and orders is so easy now. Thanks!",
-  },
-];
-
-// Generate a consistent avatar URL using DiceBear
-const getAvatarUrl = (name: string): string => {
-  // DiceBear styles to use for avatar generation
-  const styles = ["initials"];
-
-  // Create a simple hash of the name to pick a consistent style
-  const nameHash = name
-    .split("")
-    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const styleIndex = nameHash % styles.length;
-
-  // Use the name as seed for consistent avatar generation
-  const style = styles[styleIndex];
-  const seed = encodeURIComponent(name);
-
-  return `https://api.dicebear.com/7.x/${style}/svg?seed=${seed}`;
-};
+import { 
+  Marquee, 
+  TestimonialCard, 
+  FeaturedTestimonial, 
+  reviewsData, 
+  getAvatarUrl 
+} from '@/components/Testimonials';
 
 // Use the first review with 5-star rating as the featured testimonial
 const featuredReview = reviewsData.find(review => review.rating === 5) || reviewsData[0];
